@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { redirect } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -12,7 +12,7 @@ import NotesList from "@/app/_components/NotesList"
 import MarkdownEditor from "@/app/_components/MarkdownEditor"
 import { Button } from "@/components/ui/button"
 import Show from "@/app/_components/Show"
-import LoadingScreen from "@/app/_components/LoadingScreen";
+import LoadingScreen from "@/app/_components/LoadingScreen"
 
 export default function Home() {
 
@@ -20,16 +20,7 @@ export default function Home() {
     const notes = trpc.note.getNotes.useQuery()
     const [noteId, setNoteId] = useState("")
     const updateNote = trpc.note.updateNote.useMutation()
-    const note = trpc.note.getNote.useQuery({ id: noteId ?? "" }, {
-        enabled: false,
-    })
-    const [currentNote, setCurrentNote] = useState<{
-        id: string,
-        name: string,
-        content: string,
-        userId: string,
-        public: boolean
-    }>()
+    const note = trpc.note.getNote.useQuery({ id: noteId ?? "" }, { enabled: noteId != "" })
 
     const [isEditing, setIsEditing] = useState(false)
 
@@ -45,20 +36,14 @@ export default function Home() {
                 <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">{ session.data.user.name }</h2>
                 <NotesList
                     notes={ notes }
-                    onClick={ (n) => {
-                        setNoteId(n.id)
-                        note.refetch()
-                            .then(d => {
-                                setCurrentNote(d.data ?? undefined)
-                            })
-                    } }
+                    onClick={ note => setNoteId(note.id) }
                 />
             </div>
             <div className="w-full">
                 <div className="flex items-center">
-                    { currentNote &&
+                    { note.data &&
                         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                            { currentNote.name }
+                            { note.data.name }
                         </h3>
                     }
 
@@ -73,18 +58,14 @@ export default function Home() {
                         <Show bool={ isEditing }>
                             <Button
                                 onClick={ () => {
-                                    if (!currentNote) return
-
                                     const promise = async () => {
-                                        if (!currentNote) return
+                                        if (!note.data) return
 
                                         await updateNote.mutateAsync({
-                                            id: currentNote.id,
-                                            name: currentNote.name,
-                                            content: currentNote.content
+                                            id: note.data.id,
+                                            name: note.data.name,
+                                            content: note.data.content
                                         })
-
-                                        console.log("Saved: content:", currentNote.content)
                                     }
 
                                     toast.promise(promise(), {
@@ -105,29 +86,18 @@ export default function Home() {
                         </Show>
                     </div>
                 </div>
-                <ScrollArea className="rounded-md border h-[calc(100vh-100px)]">
-                    { currentNote &&
+                { note.data &&
+                    <ScrollArea className="rounded-md border h-[calc(100vh-100px)]">
                         <MarkdownEditor
-                            content={ currentNote.content }
+                            content={ note.data.content }
                             editing={ isEditing }
                             onChange={ content => {
-                                if (!currentNote) return
-
-                                setCurrentNote(note => {
-                                    if (!note) return
-
-                                    return {
-                                        id: note.id,
-                                        name: note.name,
-                                        content,
-                                        userId: note.userId,
-                                        public: note.public
-                                    }
-                                })
+                                if (note.data)
+                                    note.data.content = content
                             } }
                         />
-                    }
-                </ScrollArea>
+                    </ScrollArea>
+                }
             </div>
         </div>
     )

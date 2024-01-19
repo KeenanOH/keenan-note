@@ -1,3 +1,4 @@
+import React from "react"
 import Markdown from "react-markdown"
 
 export default function MarkdownEditor({ content, editing, onChange }: { content: string, editing: boolean, onChange: (newContent: string) => void }) {

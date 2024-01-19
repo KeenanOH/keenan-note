@@ -1,9 +1,9 @@
+import React, { useState } from "react"
+import { toast } from "sonner"
+
 import { Separator } from "@/components/ui/separator"
-import {Button} from "@/components/ui/button";
-import {CircleEllipsisIcon} from "lucide-react";
-import EllipsisIcon from "@/app/_components/EllipsisIcon";
-import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu";
-import {useState} from "react";
+import { Button } from "@/components/ui/button"
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu"
 import {
     Dialog,
     DialogContent,
@@ -11,11 +11,10 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle
-} from "@/components/ui/dialog";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import {toast} from "sonner";
-import {trpc} from "@/utils/trpc";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { trpc } from "@/utils/trpc"
 
 export default function NoteListCell({ note, onClick }: { note: { id: string, name: string, public: boolean }, onClick: (note: { id: string, name: string, public: boolean }) => void }) {
 
@@ -27,7 +26,7 @@ export default function NoteListCell({ note, onClick }: { note: { id: string, na
             <div className="flex items-center">
                 <ContextMenu >
                     <ContextMenuTrigger>
-                        <div className="text-sm cursor-pointer" onClick={ () => onClick(note) }>
+                        <div className="text-sm cursor-pointer w-screen" onClick={ () => onClick(note) }>
                             { note.name }
                         </div>
                     </ContextMenuTrigger>
@@ -64,7 +63,7 @@ export default function NoteListCell({ note, onClick }: { note: { id: string, na
                                 const promise = updateNote.mutateAsync({ id: note.id, public: true })
                                 toast.promise(promise, {
                                     loading: "Loading...",
-                                    success: note => {
+                                    success: () => {
                                         setShareDialogOpen(false)
                                         return "Successfully shared note"
                                     },

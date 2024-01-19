@@ -36,14 +36,15 @@ export const noteRouter = router({
                     public: input.public
                 },
                 where: {
-                    id: input.id
+                    id: input.id,
+                    userId: ctx.user.id
                 }
             })
 
             return { id }
         }),
     getNotes: authenticatedProcedure
-        .query(async ({ ctx, input }) => {
+        .query(async ({ ctx }) => {
             return prisma.note.findMany({
                 where: {
                     userId: ctx.user.id

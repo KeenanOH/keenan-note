@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import Markdown from "react-markdown"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
