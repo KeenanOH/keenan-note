@@ -75,5 +75,17 @@ export const noteRouter = router({
                     public: true
                 }
             })
+        }),
+    deleteNote: authenticatedProcedure
+        .input(z.object({
+            id: z.string()
+        }))
+        .mutation(async ({ ctx, input }) => {
+            await prisma.note.delete({
+                where: {
+                    id: input.id,
+                    userId: ctx.user.id
+                }
+            })
         })
 })
