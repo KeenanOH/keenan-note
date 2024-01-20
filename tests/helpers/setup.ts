@@ -1,7 +1,8 @@
 import { beforeAll } from "vitest"
+import "@testing-library/jest-dom/vitest"
 
 import { prisma } from "./prisma"
-import { userId } from "./auth"
+import { userId, userEmail } from "./auth"
 
 export const privateNote = {
     id: "clrldpgr7000008la1w1ver7n",
@@ -23,7 +24,8 @@ beforeAll(async () => {
     try {
         await prisma.user.create({
             data: {
-                id: userId
+                id: userId,
+                email: userEmail
             }
         })
 

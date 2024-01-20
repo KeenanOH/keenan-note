@@ -27,7 +27,7 @@ export default function Home() {
     if (session.status === "loading")
         return <LoadingScreen />
 
-    if (!session.data?.user)
+    if (session.status === "unauthenticated" || !session.data?.user )
         redirect("/api/auth/signin")
 
     return (
