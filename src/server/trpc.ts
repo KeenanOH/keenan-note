@@ -1,4 +1,4 @@
-import {initTRPC, TRPCError} from "@trpc/core"
+import { initTRPC, TRPCError } from "@trpc/core"
 
 import { Context } from "@/server/context"
 

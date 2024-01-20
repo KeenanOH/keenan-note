@@ -32,7 +32,7 @@ export default function NoteListCell({ note, onClick }: { note: { id: string, na
 
     return (
         <>
-            <div className="flex items-center">
+            <div className="flex items-center select-none">
                 <ContextMenu >
                     <ContextMenuTrigger>
                         <div className="text-sm cursor-pointer w-screen" onClick={ () => onClick(note) }>

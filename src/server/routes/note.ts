@@ -2,6 +2,7 @@ import { z } from "zod"
 
 import {authenticatedProcedure, publicProcedure, router} from "@/server/trpc"
 import { prisma } from "@/utils/prisma"
+import { TRPCError } from "@trpc/core"
 
 export const noteRouter = router({
     createNote: authenticatedProcedure
@@ -61,20 +62,24 @@ export const noteRouter = router({
             id: z.string()
         }))
         .query(async ({ ctx, input }) => {
-            if (ctx.user)
-                return prisma.note.findFirst({
-                    where: {
-                        id: input.id,
-                        userId: ctx.user.id
-                    }
-                })
-
-            return prisma.note.findFirst({
+            const note = await prisma.note.findFirst({
                 where: {
                     id: input.id,
-                    public: true
+                    OR: [
+                        {
+                            public: true
+                        },
+                        {
+                            userId: ctx.user?.id
+                        }
+                    ]
                 }
             })
+
+            if (!note)
+                throw new TRPCError({ code: "UNAUTHORIZED" })
+
+            return note
         }),
     deleteNote: authenticatedProcedure
         .input(z.object({
