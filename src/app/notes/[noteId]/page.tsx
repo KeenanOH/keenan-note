@@ -1,29 +1,26 @@
-"use client"
-
 import React from "react"
-import Markdown from "react-markdown"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { trpc } from "@/utils/trpc"
-import LoadingScreen from "@/app/_components/LoadingScreen"
+import Markdown from "@/app/_components/Markdown"
+import { useServerSession } from "@/server/app"
 
-export default function Note({ params }: { params: { noteId: string }}) {
+export default async function Note({ params }: { params: { noteId: string } }) {
 
-    const note = trpc.note.getNote.useQuery({ id: params.noteId })
+    const { caller } = await useServerSession()
 
-    if (note.isLoading)
-        return <LoadingScreen />
+    try {
+        const note = await caller.note.getNote({ id: params.noteId })
 
-    if (!note.data)
+        return (
+            <ScrollArea>
+                <div className="flex justify-center w-screen h-screen">
+                    <Markdown>
+                        { note.content }
+                    </Markdown>
+                </div>
+            </ScrollArea>
+        )
+    } catch {
         return <p>This note is not public.</p>
-
-    return (
-        <ScrollArea>
-            <div className="w-screen h-screen">
-                <Markdown className="prose p-8">
-                    { note.data.content }
-                </Markdown>
-            </div>
-        </ScrollArea>
-    )
+    }
 }

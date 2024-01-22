@@ -77,7 +77,7 @@ export const noteRouter = router({
             })
 
             if (!note)
-                throw new TRPCError({ code: "UNAUTHORIZED" })
+                throw new TRPCError({ code: "NOT_FOUND" })
 
             return note
         }),

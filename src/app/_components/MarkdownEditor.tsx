@@ -1,6 +1,6 @@
 import React from "react"
-import Markdown from "react-markdown"
-import remarkGfm from "remark-gfm"
+
+import Markdown from "@/app/_components/Markdown"
 
 export default function MarkdownEditor({ content, editing, onChange }: { content: string, editing: boolean, onChange: (newContent: string) => void }) {
     if (editing)
@@ -15,10 +15,8 @@ export default function MarkdownEditor({ content, editing, onChange }: { content
         )
 
     return (
-        <div className="p-8 prose">
-            <Markdown remarkPlugins={ [remarkGfm] }>
-                { content }
-            </Markdown>
-        </div>
+        <Markdown>
+            { content }
+        </Markdown>
     )
 }
