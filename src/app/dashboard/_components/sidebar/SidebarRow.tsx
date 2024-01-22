@@ -11,11 +11,11 @@ export default function SidebarRow({ note }: { note: Note }) {
 
     return (
         <>
-            <div className="flex items-center" onClick={ () => {
+            <div className="flex items-center cursor-pointer" onClick={ () => {
                 console.log(note)
                 router.push(`/dashboard/${note.id}`)
             } }>
-                <p className="text-sm cursor-pointer py-2">
+                <p className="text-sm py-2">
                     { note.name }
                 </p>
 
