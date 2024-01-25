@@ -4,9 +4,13 @@ import { noteRouter } from "@/server/routes/note"
 import { createCallerFactory, router } from "@/server/trpc"
 import { nextAuthOptions } from "@/utils/nextAuth"
 import { prisma } from "@/utils/prisma"
+import {sectionRouter} from "@/server/routes/section"
+import {newNotesRouter} from "@/server/routes/notes_v2"
 
 export const appRouter = router({
-    note: noteRouter
+    note: noteRouter,
+    newNote: newNotesRouter,
+    section: sectionRouter
 })
 export type AppRouter = typeof appRouter
 
@@ -21,5 +25,5 @@ export async function useServerSession() {
         }
     })
 
-    return { caller: createCaller({prisma, user}), user: user }
+    return { caller: createCaller({ prisma, user }), user: user }
 }

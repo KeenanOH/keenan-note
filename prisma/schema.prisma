@@ -45,6 +45,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  sections      Section[]
   notes         Note[]
 }
 
@@ -56,11 +57,23 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Section {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name     String
+  position Int    @default(0)
+  notes    Note[]
+}
+
 model Note {
-  id      String  @id @default(cuid())
-  userId  String
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name    String
-  content String
-  public  Boolean
+  id        String   @id @default(cuid())
+  sectionId String?
+  section   Section? @relation(fields: [sectionId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  position  Int      @default(0)
+  content   String   @default("")
+  public    Boolean  @default(false)
 }
