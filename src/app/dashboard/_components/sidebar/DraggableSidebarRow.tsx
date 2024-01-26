@@ -17,7 +17,7 @@ export default function DraggableSidebarRow({ note, disabled }: { note: Note, di
 
 
     return (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div ref={setNodeRef} className="touch-none" style={style} {...listeners} {...attributes}>
             <SidebarRow note={ note } />
         </div>
     )
