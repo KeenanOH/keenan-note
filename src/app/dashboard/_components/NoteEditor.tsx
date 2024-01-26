@@ -9,8 +9,6 @@ import {EditIcon} from "lucide-react"
 import Show from "@/app/_components/Show"
 import {toast} from "sonner"
 
-
-
 export default function NoteEditor({ noteId }: { noteId: string }) {
 
     const note = trpc.note.getNote.useQuery({ id: noteId })

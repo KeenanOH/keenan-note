@@ -32,24 +32,6 @@ export default function Markdown({ children }: { children: string }) {
                         </code>
                     )
                 }
-                // code(props: { children: React.ReactNode, className: string }) {
-                //     const {children, className, ...rest} = props
-                //     const match = /language-(\w+)/.exec(className || "")
-                //     return match ? (
-                //         <SyntaxHighlighter
-                //             {...rest}
-                //             PreTag="div"
-                //             language={match[1]}
-                //             style={dark}
-                //         >
-                //             { String(children).replace(/\n$/, "") }
-                //         </SyntaxHighlighter>
-                //     ) : (
-                //         <code {...rest} className={className}>
-                //             {children}
-                //         </code>
-                //     )
-                // }
             } }
         >
             { children }

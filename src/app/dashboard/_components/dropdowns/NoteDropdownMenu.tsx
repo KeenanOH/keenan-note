@@ -9,7 +9,7 @@ import {Note} from "@/app/dashboard/_components/sidebar/types"
 import ConfirmDeleteAlertDialog from "@/app/dashboard/_components/modals/ConfirmDeleteAlertDialog"
 import ShareNoteDialog from "@/app/dashboard/_components/modals/ShareNoteDialog"
 
-export default function SidebarDropdownMenu({ note }: { note: Note }) {
+export default function NoteDropdownMenu({ note }: { note: Note }) {
 
     const [confirmDeleteAlertDialogOpen, setConfirmDeleteAlertDialogOpen] = useState(false)
     const [shareNoteDialogOpen, setShareNoteDialogOpen] = useState(false)
@@ -24,7 +24,8 @@ export default function SidebarDropdownMenu({ note }: { note: Note }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem
-                        onClick={ () => setShareNoteDialogOpen(true) }>
+                        onClick={ () => setShareNoteDialogOpen(true) }
+                    >
                         Share
                     </DropdownMenuItem>
                     <DropdownMenuItem

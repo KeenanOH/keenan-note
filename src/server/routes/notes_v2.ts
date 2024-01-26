@@ -7,20 +7,17 @@ import {TRPCError} from "@trpc/core"
 
 export const newNotesRouter = router({
     getNotes: authenticatedProcedure
-        .input(z.object({
-            sectionId: z.optional(z.string())
-        }))
-        .query(async ({ ctx, input }) =>
+        .query(async ({ ctx }) =>
             await ctx.prisma.note.findMany({
                 where: {
                     userId: ctx.user.id,
-                    sectionId: input.sectionId ?? null
                 },
                 select: {
                     id: true,
                     name: true,
                     sectionId: true,
-                    position: true
+                    position: true,
+                    public: true
                 }
             })
         ),

@@ -1,6 +1,6 @@
 import React from "react"
 
-import {ModalProps} from "@/app/dashboard/_components/modals/props"
+import { NoteModalProps } from "@/app/dashboard/_components/modals/props"
 import {Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog"
 import {Label} from "@/components/ui/label"
 import {Input} from "@/components/ui/input"
@@ -9,7 +9,7 @@ import {toast} from "sonner"
 import {trpc} from "@/utils/trpc"
 import {useRouter} from "next/navigation"
 
-export default function ShareNoteDialog({ open, onOpenChange, note }: ModalProps) {
+export default function ShareNoteDialog({ open, onOpenChange, note }: NoteModalProps) {
 
     const updateNote = trpc.note.updateNote.useMutation()
     const router = useRouter()

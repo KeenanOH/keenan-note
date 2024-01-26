@@ -6,6 +6,7 @@ import { httpBatchLink } from "@trpc/react-query"
 import { SessionProvider } from "next-auth/react"
 
 import { trpc } from "@/utils/trpc"
+import DndProvider from "@/app/_providers/DndProvider"
 
 function getBaseUrl() {
     if (typeof window !== "undefined")
@@ -35,7 +36,9 @@ export function Provider({ children }: { children: React.ReactNode }) {
         <trpc.Provider queryClient={ queryClient } client={ trpcClient }>
             <QueryClientProvider client={ queryClient }>
                 <SessionProvider>
-                    { children }
+                    <DndProvider>
+                        { children }
+                    </DndProvider>
                 </SessionProvider>
             </QueryClientProvider>
         </trpc.Provider>

@@ -7,13 +7,13 @@ import {
     AlertDialogFooter,
     AlertDialogHeader, AlertDialogTitle
 } from "@/components/ui/alert-dialog"
-import { ModalProps } from "@/app/dashboard/_components/modals/props"
+import { NoteModalProps } from "@/app/dashboard/_components/modals/props"
 import {trpc} from "@/utils/trpc"
 import {toast} from "sonner"
 import {useRouter} from "next/navigation"
 
 
-export default function ConfirmDeleteAlertDialog({ open, onOpenChange, note }: ModalProps) {
+export default function ConfirmDeleteAlertDialog({ open, onOpenChange, note }: NoteModalProps) {
 
     const deleteNote = trpc.note.deleteNote.useMutation()
     const router = useRouter()
