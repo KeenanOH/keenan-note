@@ -5,19 +5,19 @@ import DraggableSidebarRow from "@/app/dashboard/_components/sidebar/DraggableSi
 import React from "react"
 import {Droppable} from "@hello-pangea/dnd"
 
-export default function SidebarSection({ section, notes, draggingDisabled }: { section: Section, notes: Note[], draggingDisabled: boolean }) {
+export default function SidebarSection({ section, notes, draggingDisabled }: { section?: Section, notes: Note[], draggingDisabled: boolean }) {
 
     const accordionStore = useAccordionStore()
 
     return (
-        <Droppable droppableId={ section.id }>
+        <Droppable droppableId={ section?.id ?? "Unfilled" }>
             { provided =>
-                <AccordionItem {...provided.droppableProps} ref={provided.innerRef} value={section.id}>
+                <AccordionItem {...provided.droppableProps} ref={provided.innerRef} value={section?.id ?? "Unfilled"}>
                     <AccordionTrigger
                         className="hover:no-underline"
-                        onClick={() => accordionStore.update(section.id)}
+                        onClick={() => accordionStore.update(section?.id ?? "Unfilled")}
                     >
-                        {section.name}
+                        {section?.name ?? "Unfilled"}
                     </AccordionTrigger>
                     <AccordionContent>
                         {

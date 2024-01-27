@@ -15,9 +15,11 @@ export default function MarkdownEditor({ content, editing, onChange }: { content
 
     return (
         <ScrollArea className="h-full">
-            <Markdown>
-                { content }
-            </Markdown>
+            <div id="note-display">
+                <Markdown>
+                    { content }
+                </Markdown>
+            </div>
         </ScrollArea>
     )
 }

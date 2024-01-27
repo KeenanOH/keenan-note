@@ -2,10 +2,9 @@
 
 import React, {useEffect, useState} from "react"
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Accordion } from "@/components/ui/accordion"
 import { useAccordionStore } from "@/app/_stores/accordianStore"
 import { Note, Section } from "@/app/dashboard/_components/sidebar/types"
-import DraggableSidebarRow from "@/app/dashboard/_components/sidebar/DraggableSidebarRow"
 import SidebarSection from "@/app/dashboard/_components/sidebar/SidebarSection"
 import {Toggle} from "@/components/ui/toggle"
 import AddDropDownMenu from "@/app/dashboard/_components/dropdowns/AddDropdownMenu"
@@ -32,28 +31,10 @@ export default function SidebarList({ notes, sections }: { notes: Note[], sectio
                 </div>
             </div>
             <Accordion type="multiple" className="w-full" value={ accordionStore.open }>
-                <AccordionItem key="Unfilled" value="Unfilled">
-                    <AccordionTrigger
-                        className="hover:no-underline"
-                        onClick={ () => accordionStore.update("Unfilled") }
-                    >
-                        Unfilled
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        {
-                            noteStore.notes
-                                .filter(note => !note.sectionId)
-                                .map((note, index) =>
-                                    <DraggableSidebarRow
-                                        key={ note.id }
-                                        index={ index }
-                                        note={ note }
-                                        disabled={ editingDisabled }
-                                    />
-                                )
-                        }
-                    </AccordionContent>
-                </AccordionItem>
+                <SidebarSection
+                    notes={ noteStore.notes.filter(note => !note.sectionId )}
+                    draggingDisabled={ editingDisabled }
+                />
                 {
                     sections.map(section =>
                         <SidebarSection
