@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { persist, combine } from "zustand/middleware"
 
 type InitialState = { open: string[] }
-type SetState = { update: (id: string) => void }
+type SetState = { update: (id: string) => void, add: (id: string) => void }
 
 export const useAccordionStore = create(
     persist(
@@ -16,6 +16,11 @@ export const useAccordionStore = create(
                         return { open: state.open.concat(id) }
 
                     return { open: state.open.filter(accordionId => accordionId != id) }
+                }),
+                add: id => set(state => {
+                    if (!state.open.includes(id))
+                        return { open: state.open.concat(id) }
+                    return state
                 })
             })
         ),

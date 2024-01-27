@@ -19,7 +19,6 @@ export default function SidebarList({ notes, sections }: { notes: Note[], sectio
     const [editingDisabled, setEditingDisabled] = useState(true)
 
     useEffect(() => {
-        console.log("Setting notes...")
         noteStore.set(notes)
     }, [notes])
 
@@ -60,7 +59,13 @@ export default function SidebarList({ notes, sections }: { notes: Note[], sectio
                         <SidebarSection
                             key={ section.id }
                             section={ section }
-                            notes={ noteStore.notes.filter(note => note.sectionId === section.id) }
+                            notes={
+                                noteStore.notes
+                                    .filter(note => note.sectionId === section.id)
+                                    .sort((lhs, rhs) => {
+                                        return lhs.position > rhs.position ? 1 : -1
+                                    })
+                            }
                             draggingDisabled={ editingDisabled }
                         />
                     )

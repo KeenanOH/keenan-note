@@ -2,7 +2,6 @@
 
 import React, {useState} from "react"
 import MarkdownEditor from "@/app/_components/MarkdownEditor"
-import {ScrollArea} from "@/components/ui/scroll-area"
 import {trpc} from "@/utils/trpc"
 import {Button} from "@/components/ui/button"
 import {EditIcon} from "lucide-react"
@@ -65,7 +64,7 @@ export default function NoteEditor({ noteId }: { noteId: string }) {
                 </div>
             </div>
             { note.data &&
-                <ScrollArea className="rounded-md border h-[calc(100vh-100px)]">
+                <div className="rounded-md border h-[calc(100vh-100px)]">
                     <MarkdownEditor
                         content={ note.data.content }
                         editing={ editing }
@@ -74,7 +73,8 @@ export default function NoteEditor({ noteId }: { noteId: string }) {
                                 note.data.content = content
                         } }
                     />
-                </ScrollArea>
+                </div>
+
             }
         </div>
     )

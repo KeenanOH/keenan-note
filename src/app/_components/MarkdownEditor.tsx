@@ -1,22 +1,23 @@
 import React from "react"
 
 import Markdown from "@/app/_components/Markdown"
+import {ScrollArea} from "@/components/ui/scroll-area"
 
 export default function MarkdownEditor({ content, editing, onChange }: { content: string, editing: boolean, onChange: (newContent: string) => void }) {
     if (editing)
         return (
-            <div className="p-8">
-                <textarea
-                    className="w-full h-screen resize-none outline-none"
-                    defaultValue={ content }
-                    onChange={ (e) => onChange(e.target.value) }
-                />
-            </div>
+            <textarea
+                className="p-8 w-full h-full outline-none resize-none"
+                defaultValue={ content }
+                onChange={ e => onChange(e.target.value) }
+            />
         )
 
     return (
-        <Markdown>
-            { content }
-        </Markdown>
+        <ScrollArea className="h-full">
+            <Markdown>
+                { content }
+            </Markdown>
+        </ScrollArea>
     )
 }

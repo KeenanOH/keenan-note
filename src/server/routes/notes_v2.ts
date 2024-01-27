@@ -18,6 +18,9 @@ export const newNotesRouter = router({
                     sectionId: true,
                     position: true,
                     public: true
+                },
+                orderBy: {
+                    position: "asc"
                 }
             })
         ),
