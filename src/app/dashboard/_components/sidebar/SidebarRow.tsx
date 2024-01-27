@@ -10,7 +10,7 @@ export default function SidebarRow({ note }: { note: Note }) {
     const router = useRouter()
 
     return (
-        <>
+        <div className="bg-white">
             <div
                 className="flex items-center cursor-pointer"
                 onClick={ () => {
@@ -25,6 +25,6 @@ export default function SidebarRow({ note }: { note: Note }) {
                 <NoteDropdownMenu note={ note } />
             </div>
             <Separator className="my-2" />
-        </>
+        </div>
     )
 }

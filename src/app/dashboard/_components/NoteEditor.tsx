@@ -6,7 +6,6 @@ import {ScrollArea} from "@/components/ui/scroll-area"
 import {trpc} from "@/utils/trpc"
 import {Button} from "@/components/ui/button"
 import {EditIcon} from "lucide-react"
-import Show from "@/app/_components/Show"
 import {toast} from "sonner"
 
 export default function NoteEditor({ noteId }: { noteId: string }) {
@@ -44,7 +43,7 @@ export default function NoteEditor({ noteId }: { noteId: string }) {
                         <EditIcon />
                     </Button>
 
-                    <Show bool={ editing }>
+                    { editing &&
                         <Button
                             onClick={ () => {
                                 toast.promise(saveNote(), {
@@ -62,7 +61,7 @@ export default function NoteEditor({ noteId }: { noteId: string }) {
                         >
                             Save
                         </Button>
-                    </Show>
+                    }
                 </div>
             </div>
             { note.data &&

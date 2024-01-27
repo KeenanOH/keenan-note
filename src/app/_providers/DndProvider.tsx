@@ -1,39 +1,29 @@
-import React, {useState} from "react"
-import {DndContext, DragEndEvent, DragOverlay, DragStartEvent} from "@dnd-kit/core"
-import SidebarRow from "@/app/dashboard/_components/sidebar/SidebarRow"
-import {Note} from "@/app/dashboard/_components/sidebar/types"
+import React from "react"
+import {DragDropContext, DropResult} from "@hello-pangea/dnd"
 import {trpc} from "@/utils/trpc"
 import {useRouter} from "next/navigation"
+import {useNoteStore} from "@/app/_stores/noteStore"
 
 export default function DndProvider({ children }: { children: React.ReactNode }) {
 
-    const [activeNote, setActiveNote] = useState<Note>()
     const updateNote = trpc.newNote.updateNote.useMutation()
     const router = useRouter()
+    const noteStore = useNoteStore()
 
-    function handleDragStart(event: DragStartEvent) {
-        setActiveNote(event.active.data.current as Note)
-    }
+    function handleDragEnd(result: DropResult) {
+        const noteId = result.draggableId
+        const sectionId = result.destination?.droppableId
 
-    function handleDragEnd(event: DragEndEvent) {
-        const {active, over} = event
-        if (over) {
-            updateNote.mutateAsync({ id: active.id as string, sectionId: over.id as string })
-                .then(() => router.refresh())
-        }
+        if (!sectionId) return
 
-        setActiveNote(undefined)
+        noteStore.update(noteId, sectionId)
+        updateNote.mutateAsync({ id: noteId, sectionId })
+            .then(() => router.refresh())
     }
 
     return (
-        <DndContext onDragStart={ handleDragStart } onDragEnd={ handleDragEnd }>
+        <DragDropContext onDragEnd={ handleDragEnd }>
             { children }
-
-            <DragOverlay>
-                { activeNote &&
-                    <SidebarRow note={ activeNote } />
-                }
-            </DragOverlay>
-        </DndContext>
+        </DragDropContext>
     )
 }
