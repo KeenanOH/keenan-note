@@ -16,7 +16,7 @@ export const useNoteStore = create(
                             if (note.id != id)
                                 return note
 
-                            if (position)
+                            if (typeof position === "number")
                                 return { ...note, position, sectionId: sectionId }
                             return { ...note, sectionId: sectionId }
                         })

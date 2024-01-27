@@ -11,34 +11,30 @@ export default function SidebarSection({ section, notes, draggingDisabled }: { s
 
     return (
         <Droppable droppableId={ section.id }>
-            { (provided, snapshot) => {
-                if (snapshot.isDraggingOver)
-                    accordionStore.add(section.id)
-
-                return (
-                    <AccordionItem {...provided.droppableProps} ref={provided.innerRef} value={section.id}>
-                        <AccordionTrigger
-                            className="hover:no-underline"
-                            onClick={() => accordionStore.update(section.id)}
-                        >
-                            {section.name}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            {
-                                notes
-                                    .map((note, index) =>
-                                        <DraggableSidebarRow
-                                            key={note.id}
-                                            index={index}
-                                            note={note}
-                                            disabled={draggingDisabled}
-                                        />
-                                    )
-                            }
-                        </AccordionContent>
-                    </AccordionItem>
-                )
-            } }
+            { provided =>
+                <AccordionItem {...provided.droppableProps} ref={provided.innerRef} value={section.id}>
+                    <AccordionTrigger
+                        className="hover:no-underline"
+                        onClick={() => accordionStore.update(section.id)}
+                    >
+                        {section.name}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        {
+                            notes
+                                .map((note, index) =>
+                                    <DraggableSidebarRow
+                                        key={note.id}
+                                        index={index}
+                                        note={note}
+                                        disabled={draggingDisabled}
+                                    />
+                                )
+                        }
+                    </AccordionContent>
+                    { provided.placeholder }
+                </AccordionItem>
+            }
         </Droppable>
     )
 }
