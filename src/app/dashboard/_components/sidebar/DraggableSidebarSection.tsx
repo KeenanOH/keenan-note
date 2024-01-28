@@ -12,7 +12,7 @@ export default function DraggableSidebarSection({ section, notes, draggingDisabl
     return (
         <Draggable draggableId={ `SECTION-${section?.id ?? "Unfilled"}` } index={ index }>
             { provided =>
-                <div className="touch-none" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <SidebarSection notes={ notes } section={ section } draggingDisabled={ draggingDisabled} />
                 </div>
             }
