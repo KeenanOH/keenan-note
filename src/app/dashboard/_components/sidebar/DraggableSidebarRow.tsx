@@ -9,7 +9,7 @@ export default function DraggableSidebarRow({ note, disabled, index }: { note: N
         return <SidebarRow note={ note } />
 
     return (
-        <Draggable draggableId={ note.id } index={ index }>
+        <Draggable draggableId={ `NOTE-${note.id}` } index={ index }>
             { provided =>
                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <SidebarRow note={ note } />

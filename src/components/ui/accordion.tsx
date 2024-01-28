@@ -55,4 +55,15 @@ const AccordionContent = React.forwardRef<
 
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+const AccordionHeader = React.forwardRef<
+    React.ElementRef<typeof AccordionPrimitive.Header>,
+    React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Header>
+>(({ className, children, ...props }, ref) => (
+    <AccordionPrimitive.Header className="flex flex-1 items-center justify-between py-4 font-medium transition-all [&[data-state=open]>svg]:rotate-180">
+        {children}
+        <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+    </AccordionPrimitive.Header>
+))
+AccordionHeader.displayName = AccordionPrimitive.Header.displayName
+
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent, AccordionHeader }

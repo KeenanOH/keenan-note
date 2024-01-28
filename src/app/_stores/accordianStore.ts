@@ -1,27 +1,29 @@
 import { create } from "zustand"
 import { persist, combine } from "zustand/middleware"
 
-type InitialState = { open: string[] }
-type SetState = { update: (id: string) => void, add: (id: string) => void }
+type InitialState = { accordions: { id: string, value: string }[] }
+type SetState = { toggle: (id: string) => void, get: (id: string) => string }
 
 export const useAccordionStore = create(
     persist(
         combine<InitialState, SetState>(
-            { open: [] },
-            set => ({
-                update: id => set(state => {
-                    const index = state.open.indexOf(id)
+            { accordions: [] },
+            (set, get) => ({
+                toggle: id => set(state => {
+                    if (!state.accordions.find(accordion => accordion.id === id))
+                        state.accordions.push({ id, value: "" })
 
-                    if (index == -1)
-                        return { open: state.open.concat(id) }
-
-                    return { open: state.open.filter(accordionId => accordionId != id) }
+                    return {
+                        accordions: state.accordions.map(accordion => {
+                            if (accordion.id != id) return accordion
+                            const newValue = accordion.value === accordion.id ? "" : accordion.id
+                            return {id: accordion.id, value: newValue}
+                        })
+                    }
                 }),
-                add: id => set(state => {
-                    if (!state.open.includes(id))
-                        return { open: state.open.concat(id) }
-                    return state
-                })
+                get: id => {
+                    return get().accordions.find(accordion => accordion.id === id)?.value ?? ""
+                }
             })
         ),
         {

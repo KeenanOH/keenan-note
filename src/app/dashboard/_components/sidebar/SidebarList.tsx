@@ -2,24 +2,26 @@
 
 import React, {useEffect, useState} from "react"
 
-import { Accordion } from "@/components/ui/accordion"
-import { useAccordionStore } from "@/app/_stores/accordianStore"
 import { Note, Section } from "@/app/dashboard/_components/sidebar/types"
-import SidebarSection from "@/app/dashboard/_components/sidebar/SidebarSection"
 import {Toggle} from "@/components/ui/toggle"
 import AddDropDownMenu from "@/app/dashboard/_components/dropdowns/AddDropdownMenu"
 import { useNoteStore } from "@/app/_stores/noteStore"
+import {Droppable} from "@hello-pangea/dnd"
+import DraggableSidebarSection from "@/app/dashboard/_components/sidebar/DraggableSidebarSection"
+import {useSectionStore} from "@/app/_stores/sectionStore"
+import SidebarSection from "@/app/dashboard/_components/sidebar/SidebarSection"
 
 export default function SidebarList({ notes, sections }: { notes: Note[], sections: Section[] }) {
 
-    const accordionStore = useAccordionStore()
     const noteStore = useNoteStore()
+    const sectionStore = useSectionStore()
 
     const [editingDisabled, setEditingDisabled] = useState(true)
 
     useEffect(() => {
         noteStore.set(notes)
-    }, [notes])
+        sectionStore.set(sections)
+    }, [notes, sections])
 
     return (
         <div>
@@ -30,28 +32,39 @@ export default function SidebarList({ notes, sections }: { notes: Note[], sectio
                     <AddDropDownMenu />
                 </div>
             </div>
-            <Accordion type="multiple" className="w-full" value={ accordionStore.open }>
-                <SidebarSection
-                    notes={ noteStore.notes.filter(note => !note.sectionId )}
-                    draggingDisabled={ editingDisabled }
-                />
-                {
-                    sections.map(section =>
-                        <SidebarSection
-                            key={ section.id }
-                            section={ section }
-                            notes={
-                                noteStore.notes
-                                    .filter(note => note.sectionId === section.id)
-                                    .sort((lhs, rhs) => {
-                                        return lhs.position > rhs.position ? 1 : -1
-                                    })
-                            }
-                            draggingDisabled={ editingDisabled }
-                        />
-                    )
+            <SidebarSection
+                section={ { id: "Unfilled", name: "Unfilled", position: 0 } }
+                notes={ noteStore.notes.filter(note => !note.sectionId ) }
+                draggingDisabled={ editingDisabled }
+            />
+            <Droppable droppableId="sidebar-list" type="SECTION">
+                { provided =>
+                    <div {...provided.droppableProps} ref={provided.innerRef} suppressHydrationWarning={ true }>
+
+                        {
+                            sectionStore.sections
+                                .sort((lhs, rhs) => {
+                                    return lhs.position > rhs.position ? 1 : -1
+                                })
+                                .map((section, index) =>
+                                    <DraggableSidebarSection
+                                        key={ section.id }
+                                        section={ section }
+                                        notes={
+                                            noteStore.notes
+                                                .filter(note => note.sectionId === section.id)
+                                                .sort((lhs, rhs) => {
+                                                    return lhs.position > rhs.position ? 1 : -1
+                                                })
+                                        }
+                                        draggingDisabled={ editingDisabled }
+                                        index={ index }
+                                    />
+                                )
+                        }
+                    </div>
                 }
-            </Accordion>
+            </Droppable>
         </div>
     )
 }

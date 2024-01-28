@@ -4,7 +4,7 @@ import React, {useState} from "react"
 import MarkdownEditor from "@/app/_components/MarkdownEditor"
 import {trpc} from "@/utils/trpc"
 import {Button} from "@/components/ui/button"
-import {EditIcon, PrinterIcon} from "lucide-react"
+import {EditIcon, LinkIcon} from "lucide-react"
 import {toast} from "sonner"
 import Link from "next/link"
 
@@ -35,12 +35,12 @@ export default function NoteEditor({ noteId }: { noteId: string }) {
                 }
 
                 <div className="flex items-center ml-auto">
-                    <Link href={ `/print/${noteId}` } target="_blank" rel="noopener noreferrer">
+                    <Link href={ `/notes/${noteId}` } target="_blank" rel="noopener noreferrer">
                         <Button
                             variant="ghost"
                             size="icon"
                         >
-                            <PrinterIcon />
+                            <LinkIcon />
                         </Button>
                     </Link>
                     <Button

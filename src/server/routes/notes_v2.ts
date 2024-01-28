@@ -75,7 +75,7 @@ export const newNotesRouter = router({
             id: z.string(),
             name: z.optional(z.string()),
             content: z.optional(z.string()),
-            sectionId: z.optional(z.string()),
+            sectionId: z.optional(z.nullable(z.string())),
             position: z.optional(z.number())
         }))
         .mutation(async ({ ctx, input }) =>

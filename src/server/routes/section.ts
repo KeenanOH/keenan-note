@@ -13,6 +13,9 @@ export const sectionRouter = router({
                     id: true,
                     name: true,
                     position: true
+                },
+                orderBy: {
+                    position: "asc"
                 }
             })
         ),
