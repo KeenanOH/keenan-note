@@ -5,7 +5,7 @@ import SidebarSection from "@/app/dashboard/_components/sidebar/SidebarSection"
 import {Draggable} from "@hello-pangea/dnd"
 
 
-export default function DraggableSidebarSection({ section, notes, draggingDisabled, index }: { section?: Section, notes: Note[], draggingDisabled: boolean, index: number }) {
+export default function DraggableSidebarSection({ section, notes, draggingDisabled, index }: { section: Section, notes: Note[], draggingDisabled: boolean, index: number }) {
     if (draggingDisabled)
         return <SidebarSection notes={ notes } section={ section } draggingDisabled={ draggingDisabled} />
 
