@@ -40,7 +40,6 @@ export default function SidebarList({ notes, sections }: { notes: Note[], sectio
             <Droppable droppableId="sidebar-list" type="SECTION">
                 { provided =>
                     <div {...provided.droppableProps} ref={provided.innerRef} suppressHydrationWarning={ true }>
-
                         {
                             sectionStore.sections
                                 .sort((lhs, rhs) => {
@@ -62,6 +61,7 @@ export default function SidebarList({ notes, sections }: { notes: Note[], sectio
                                     />
                                 )
                         }
+                        { provided.placeholder }
                     </div>
                 }
             </Droppable>

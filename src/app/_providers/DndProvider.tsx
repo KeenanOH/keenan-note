@@ -64,8 +64,10 @@ export default function DndProvider({ children }: { children: React.ReactNode })
                 newSections.push({ id: sections[i].id, name: sections[i].name, position: i })
             }
 
+            if (position === sections.length)
+                newSections.push({ ...editedSection })
+
             newSections.map((section, index) => {
-                console.log(section.name, index)
                 sectionStore.update(section.id, index)
                 updateSection.mutate({ id: section.id, position: index })
             })
