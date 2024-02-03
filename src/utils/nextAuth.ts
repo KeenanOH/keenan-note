@@ -15,7 +15,7 @@ export const nextAuthOptions: AuthOptions = {
         })
     ],
     callbacks: {
-        redirect: async() => {
+        redirect: async () => {
             return "/"
         }
     },
